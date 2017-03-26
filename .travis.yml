@@ -1,9 +1,13 @@
+language: generic
 services: docker
 
+env:
+ - DOCKERIMAGE=anselmolsm/travis_ci_deps:ubuntu1604
+ - DOCKERIMAGE=anselmolsm/travis_ci_deps:archlinux
+
 before_install:
- - docker run --cidfile /tmp/id -it -d anselmolsm/travis_ci_deps:ubuntu1604 /bin/bash
- - tar cf csd.tar * && docker cp csd.tar $(cat /tmp/id):/tmp/
+ - CONTAINER=$(docker run -it -d $DOCKERIMAGE /bin/bash)
+ - tar cf csd.tar * && docker cp csd.tar $CONTAINER:/tmp/ 
 
 script:  
- - docker exec -i $(cat /tmp/id) /bin/bash -c "cd /tmp/ && tar xf csd.tar && ./autogen.sh"
- - docker exec -i $(cat /tmp/id) /bin/bash -c "cd /tmp/ && ./configure && make -j"
+ - docker exec -i $CONTAINER /bin/bash -c "cd /tmp/ && tar xf csd.tar && ./autogen.sh c && make -j"
