@@ -8,3 +8,5 @@ before_install:
 
 script:  
  - docker exec -i $CONTAINER /bin/bash -c "cd /build && ./autogen.sh c --with-systemdsystemunitdir=/usr/lib/systemd/system && make -j && make -j samples"
+ - docker exec -i $CONTAINER /bin/bash -c "cd /build && ./autogen.sh c --with-systemdsystemunitdir=/usr/lib/systemd/system --enable-mavlink && make -j && make -j samples"
+ - docker exec -i $CONTAINER /bin/bash -c "cd /build && ./autogen.sh c --with-systemdsystemunitdir=/usr/lib/systemd/system --enable-mavlink --enable-aero && make -j && make -j samples"
